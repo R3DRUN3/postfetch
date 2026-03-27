@@ -1,0 +1,36 @@
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vim/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Env & secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Logs & debug
+*.log
+*.log.*
+
+# Binaries & build artifacts
+*.o
+*.a
+*.so
+*.out
+*.elf
+postfetch

@@ -1,0 +1,26 @@
+[package]
+name = "postfetch"
+version = "0.1.0"
+edition = "2024"
+description = "A fastfetch-style privacy and security audit tool for Linux"
+authors = ["r3drun3"]
+
+[[bin]]
+name = "postfetch"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+colored = "2.1"
+
+[profile.release]
+opt-level     = 3        # maximum speed optimisation
+lto           = true     # link-time optimisation — merges all crates before codegen, reduces binary size and improves inlining
+codegen-units = 1        # single codegen unit — slower compile but best runtime perf and smallest binary
+panic         = "abort"  # drop unwinding code entirely — smaller binary, no stack unwinding overhead
+strip         = true     # strip debug symbols and DWARF info from the final binary
+debug         = false    # no debug info in release
+
+[profile.release.build-override]
+opt-level = 3
+codegen-units = 1
