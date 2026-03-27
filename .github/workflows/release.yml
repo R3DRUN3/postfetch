@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl
+
+      - name: Install musl tools
+        run: sudo apt-get install -y musl-tools
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Build release binary (musl static)
+        run: |
+          RUSTFLAGS="-C target-cpu=x86-64" \
+          cargo build --release --target x86_64-unknown-linux-musl
+
+      - name: Strip binary
+        run: strip target/x86_64-unknown-linux-musl/release/postfetch
+
+      - name: Package binary
+        run: |
+          mkdir -p dist
+          cp target/x86_64-unknown-linux-musl/release/postfetch dist/postfetch
+          cp README.md dist/README.md
+          cd dist
+          tar -czf postfetch-${{ github.ref_name }}-x86_64-linux-musl.tar.gz postfetch README.md
+          sha256sum postfetch-${{ github.ref_name }}-x86_64-linux-musl.tar.gz > postfetch-${{ github.ref_name }}-x86_64-linux-musl.tar.gz.sha256
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            dist/postfetch-${{ github.ref_name }}-x86_64-linux-musl.tar.gz
+            dist/postfetch-${{ github.ref_name }}-x86_64-linux-musl.tar.gz.sha256
