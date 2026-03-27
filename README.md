@@ -1,14 +1,14 @@
 # postfetch  
 
 [![Release](https://github.com/R3DRUN3/postfetch/actions/workflows/release.yml/badge.svg)](https://github.com/R3DRUN3/postfetch/actions/workflows/release.yml)
+![](https://img.shields.io/badge/OS-linux-informational?style=flat&logo=linux&color=ffbf80)  
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
-[![Latest Release](https://img.shields.io/github/v/release/r3drun3/postfetch?logo=github)](https://github.com/r3drun3/postfetch/releases/latest)  
+[![Latest Release](https://img.shields.io/github/v/release/r3drun3/postfetch?logo=github)](https://github.com/r3drun3/postfetch/releases/latest)
+
 
 <p align="left">
   <img src="./media/logo.png" width="300">
 </p>
-
-
 
 A fastfetch-style **privacy and security audit tool** for Linux, written in rust.  
 
@@ -31,12 +31,13 @@ is configured to support **privacy, security, local control, and digital soverei
 
 ## Quick start
 
+The following one-liner let's you run the latest binary directly:  
+
 ```bash
-cargo build --release
-./target/release/postfetch
+curl -sL https://github.com/R3DRUN3/postfetch/releases/download/v0.1.0/postfetch-v0.1.0-x86_64-linux-musl.tar.gz | tar -xz && ./postfetch
 ```  
 
-In order to cover all the checks, better to run as `sudo`:  
+Note: In order to cover all the checks, better to run as `sudo`:  
 
 ![output](./media/output.png)  
 
