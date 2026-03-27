@@ -1,5 +1,6 @@
 # postfetch  
 
+[![Release](https://github.com/R3DRUN3/postfetch/actions/workflows/release.yml/badge.svg)](https://github.com/R3DRUN3/postfetch/actions/workflows/release.yml)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![Latest Release](https://img.shields.io/github/v/release/r3drun3/postfetch?logo=github)](https://github.com/r3drun3/postfetch/releases/latest)  
 
