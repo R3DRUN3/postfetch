@@ -1,5 +1,7 @@
 use crate::types::{CheckResult, Status};
 use super::{cmd_output, read_file};
+use std::env;
+use std::fs;
 
 fn sysctl_int(path: &str) -> Option<i64> {
     read_file(path)
@@ -16,6 +18,48 @@ fn flag(module: &str, label: &str, path: &str, detail: &str, expect_nonzero: boo
         }
     };
     CheckResult::new(module, label, &display, status, Some(detail))
+}
+
+/// --- shell history size ---
+fn check_shell_history() -> CheckResult {
+    let module = "hardening";
+    let label = "Shell History Lines";
+
+    // Determine shell
+    let shell_path = env::var("SHELL").unwrap_or_default();
+    let shell_name = shell_path
+        .rsplit('/')
+        .next()
+        .unwrap_or("unknown");
+
+    // Guess history file based on common shells
+    let home = env::var("HOME").unwrap_or_default();
+    let history_file = match shell_name {
+        "bash" => format!("{}/.bash_history", home),
+        "zsh"  => format!("{}/.zsh_history", home),
+        "fish" => format!("{}/.config/fish/fish_history", home),
+        _      => "".to_string(),
+    };
+
+    if history_file.is_empty() {
+        return CheckResult::new(module, label, "Unknown shell", Status::Unknown,
+            Some("Cannot determine shell history file"));
+    }
+
+    // Count lines
+    let line_count = fs::read_to_string(&history_file)
+        .map(|content| content.lines().count())
+        .unwrap_or(0);
+
+    let (status, detail) = if line_count <= 50 {
+        (Status::Good, "History lines within safe limit (<=50), check it anyway")
+    } else if line_count <= 500 {
+        (Status::Warn, "History lines exceed 50; consider trimming")
+    } else {
+        (Status::Bad, "History lines exceed 500; privacy and security risk")
+    };
+
+    CheckResult::new(module, label, &format!("{} lines ({})", line_count, shell_name), status, Some(detail))
 }
 
 pub fn check_hardening() -> Vec<CheckResult> {
@@ -196,6 +240,9 @@ pub fn check_hardening() -> Vec<CheckResult> {
         if auditd { Status::Good } else { Status::Warn },
         Some("auditd logs system calls for security auditing"),
     ));
+
+    // --- Shell history ---
+    results.push(check_shell_history());
 
     results
 }
