@@ -34,8 +34,35 @@ pub fn check_sandboxing() -> Vec<CheckResult> {
         "Docker",
         if docker { "Installed" } else { "Not installed" },
         if docker { Status::Good } else { Status::Warn },
-        Some("Docker lets you run sandboxed Linux processes"),
+        Some("Docker lets you run sandboxed Linux processes, consider using podman for better default security"),
     ));
+
+
+    // --- Podman ---
+    let podman = which("podman");
+    results.push(CheckResult::new(
+        "sandboxing",
+        "Podman",
+        if podman { "Installed" } else { "Not installed" },
+        if podman { Status::Good } else { Status::Warn },
+        Some("Podman supports daemonless and rootless container isolation"),
+    ));
+
+
+    // --- Landlock ---
+    let landlock_lsm = std::fs::read_to_string("/sys/kernel/security/lsm")
+    .ok()
+    .map(|s| s.split(',').any(|x| x.trim() == "landlock"))
+    .unwrap_or(false);
+    results.push(CheckResult::new(
+        "sandboxing",
+        "Landlock",
+        if landlock_lsm { "Enabled in LSM stack" } else { "Not enabled" },
+        if landlock_lsm { Status::Good } else { Status::Unknown },
+        Some("Landlock is an unprivileged Linux Security Module for self-imposed sandboxing"),
+    ));
+
+
     
 
     // --- Firejail ---
