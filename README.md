@@ -33,7 +33,7 @@ is configured to support **privacy, security, local control, and digital soverei
 The following one-liner let's you run the latest binary directly:  
 
 ```bash
-curl -sL https://github.com/R3DRUN3/postfetch/releases/download/v0.1.0/postfetch-v0.1.0-x86_64-linux-musl.tar.gz | tar -xz && ./postfetch
+curl -sL https://github.com/R3DRUN3/postfetch/releases/download/v0.2.0/postfetch-v0.2.0-x86_64-linux-musl.tar.gz | tar -xz && ./postfetch
 ```  
 
 
