@@ -10,7 +10,7 @@
   <img src="./media/logo.png" width="300">
 </p>
 
-A fastfetch-style **privacy and security audit tool** for Linux, written in rust.  
+**Postfetch** (posture fetch) is a fastfetch-style **privacy and security audit tool** for Linux, written in rust.  
 
 Instead of cosmetic system info, `postfetch` shows whether your system
 is configured to support **privacy, security, local control, and digital sovereignty**.
@@ -19,14 +19,13 @@ is configured to support **privacy, security, local control, and digital soverei
 
 | Module       | Checks                                                                                                          |
 |--------------|-----------------------------------------------------------------------------------------------------------------|
-| encryption   | LUKS disk encryption, dm-crypt active devices, /etc/crypttab, encrypted swap, TPM chip, home dir encryption    |
-| firewall     | nftables, iptables, UFW, firewalld, overall firewall status                                                     |
-| dns          | Nameservers + provider label, DNS leak risk, DNS-over-TLS, DNSSEC, local resolvers (unbound, dnsmasq, dnscrypt)|
-| telemetry    | apport, whoopsie, snapd, geoclue, avahi, systemd-coredump, Firefox telemetry prefs, Chrome managed policies    |
-| sandboxing   | Flatpak, Firejail, bubblewrap, AppArmor, SELinux, seccomp (PID 1), Docker                                      |
-| hardening    | ASLR, kptr_restrict, dmesg_restrict, perf_event_paranoid, ptrace_scope, unprivileged user namespaces,          |
-|              | core dumps, TCP SYN cookies, RP filter, ICMP redirects, IP forwarding, NX/XD bit, Secure Boot, USBGuard, auditd|
-| network      | VPN interface (tun/wg/proton/mullvad), Tor service + SocksPort, WiFi MAC randomization, IPv6 status, open ports|
+| encryption   | LUKS disk encryption, dm-crypt active devices, /etc/crypttab, encrypted swap, TPM chip, home dir encryption, others|
+| firewall     | nftables, iptables, UFW, firewalld, overall firewall status, others                                                     |
+| dns          | Nameservers + provider label, DNS leak risk, DNS-over-TLS, DNSSEC, local resolvers (unbound, dnsmasq, dnscrypt), others|
+| telemetry    | apport, whoopsie, snapd, geoclue, avahi, systemd-coredump, Firefox telemetry prefs, Chrome managed policies, others    |
+| sandboxing   | Flatpak, Firejail, bubblewrap, AppArmor, SELinux, seccomp (PID 1), Docker, others                                     |
+| hardening    | ASLR, kptr_restrict, dmesg_restrict, perf_event_paranoid, ptrace_scope, unprivileged user namespaces, auditd, others         |
+| network      | VPN interface (tun/wg/proton/mullvad), Tor service + SocksPort, WiFi MAC randomization, IPv6 status, open ports, others|
 
 
 ## Quick start
@@ -37,7 +36,11 @@ The following one-liner let's you run the latest binary directly:
 curl -sL https://github.com/R3DRUN3/postfetch/releases/download/v0.1.0/postfetch-v0.1.0-x86_64-linux-musl.tar.gz | tar -xz && ./postfetch
 ```  
 
-Note: In order to cover all the checks, better to run as `sudo`:  
+
+> [!TIP]
+> In order to cover all the checks, better to run as `sudo`  
+
+
 
 ![output](./media/output.png)  
 
