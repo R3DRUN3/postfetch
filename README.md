@@ -36,6 +36,9 @@ The following one-liner let's you run the latest binary directly:
 curl -sL https://github.com/R3DRUN3/postfetch/releases/download/v0.2.0/postfetch-v0.2.0-x86_64-linux-musl.tar.gz | tar -xz && ./postfetch
 ```  
 
+Postfetch is also available on [aur](https://aur.archlinux.org/packages/postfetch), you can install it with `yay -S postfetch`.  
+
+
 
 > [!TIP]
 > In order to cover all the checks, better to run as `sudo`  
